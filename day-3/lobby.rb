@@ -2,12 +2,13 @@ input = File.read('day-3/input.txt').split("\n")
 
 def find_max_joltage_per_bank(bank)
   bank_arr = bank.each_char.map(&:to_i)
-  first_num = bank_arr[0]
-  second_num = bank_arr[1]
+  first_num = -1
+  second_num = -1
 
-  bank_arr[2..-1].each do |number|
-    if number > first_num 
+  bank_arr.each.with_index() do |number, i|
+    if number > first_num && i < bank_arr.length
       first_num = number
+      second_num = -1
     elsif number > second_num
       second_num = number
     end
