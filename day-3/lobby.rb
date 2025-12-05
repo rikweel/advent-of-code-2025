@@ -2,21 +2,18 @@ input = File.read('day-3/input.txt').split("\n")
 
 def find_max_joltage_per_bank(bank)
   bank_arr = bank.each_char.map(&:to_i)
-  first_num = -1
-  second_num = -1
 
-  bank_arr.each.with_index() do |number, i|
-    if number > first_num && i < bank_arr.length
-      first_num = number
-      second_num = -1
-    elsif number > second_num
-      second_num = number
-    end
+  first_number = bank_arr.max
+  first_index = bank_arr.index(first_number)
 
-    first_num == 9 && second_num == 9 && break
+  if first_index == bank_arr.length - 1
+    second_number = first_number
+    first_number = bank_arr[0...first_index].max
+  else 
+    second_number = bank_arr[(first_index + 1)..-1].max
   end
 
-  [first_num, second_num].join().to_i
+  [first_number, second_number].join.to_i
 end
 
 def find_max_total_joltage(input)
