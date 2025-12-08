@@ -30,4 +30,34 @@ def trace_tachyon_beams(input)
   answer
 end
 
-puts trace_tachyon_beams(input)
+def trace_all_possible_beam_paths(input)
+  light_source = input[0].index('S')
+  current_paths = [[[0, light_source]]]
+
+  input[1..].each_with_index do |line, row_index|
+    actual_row = row_index + 1
+    next_paths = []
+
+    current_paths.each do |path|
+      last_col = path[-1][1]
+      next if last_col < 0 || last_col >= line.size
+
+      if line[last_col] == '^'
+        left_path = path + [[actual_row, last_col - 1]]
+        right_path = path + [[actual_row, last_col + 1]]
+        next_paths << left_path
+        next_paths << right_path
+      else
+        new_path = path + [[actual_row, last_col]]
+        next_paths << new_path
+      end
+    end
+
+    current_paths = next_paths
+  end
+
+  # Remove duplicate paths and count them
+  current_paths.size
+end
+
+puts trace_all_possible_beam_paths(input).inspect
